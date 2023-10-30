@@ -3,7 +3,7 @@ using namespace std;
 
 const int MAX_SIZE = 100;
 
-int insertAtBeginning(int arr[], int &size, int element)
+int insertElement(int arr[], int &size, int element, int position)
 {
     if (size >= MAX_SIZE)
     {
@@ -11,17 +11,23 @@ int insertAtBeginning(int arr[], int &size, int element)
         return size;
     }
 
-    for (int i = size; i > 0; i--)
+    if (position < 0 || position > size)
+    {
+        cout << "Invalid position for insertion." << endl;
+        return size;
+    }
+
+    for (int i = size; i > position; i--)
     {
         arr[i] = arr[i - 1];
     }
 
-    arr[0] = element;
+    arr[position] = element;
     size++;
     return size;
 }
 
-int deleteFromBeginning(int arr[], int &size)
+int deleteElement(int arr[], int &size, int position)
 {
     if (size <= 0)
     {
@@ -29,7 +35,13 @@ int deleteFromBeginning(int arr[], int &size)
         return size;
     }
 
-    for (int i = 0; i < size - 1; i++)
+    if (position < 0 || position >= size)
+    {
+        cout << "Invalid position for deletion." << endl;
+        return size;
+    }
+
+    for (int i = position; i < size - 1; i++)
     {
         arr[i] = arr[i + 1];
     }
@@ -61,7 +73,7 @@ int main()
     int choice;
     do
     {
-        cout << "\n1. Insert at the beginning\n2. Delete from the beginning\n3. Exit\n";
+        cout << "\n1. Insert element\n2. Delete element\n3. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -69,15 +81,20 @@ int main()
         {
         case 1:
         {
-            int element;
-            cout << "Enter the element to insert at the beginning: ";
+            int element, position;
+            cout << "Enter the element to insert: ";
             cin >> element;
-            size = insertAtBeginning(arr, size, element);
+            cout << "Enter the position to insert: ";
+            cin >> position;
+            size = insertElement(arr, size, element, position);
             break;
         }
         case 2:
         {
-            size = deleteFromBeginning(arr, size);
+            int position;
+            cout << "Enter the position to delete: ";
+            cin >> position;
+            size = deleteElement(arr, size, position);
             break;
         }
         case 3:
